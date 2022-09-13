@@ -12,6 +12,13 @@ if [ "$branch" = 'master' ] || [ "$branch" = 'main' ]; then
     exit 1
 fi
 
+# Unstage and re-emit translations because the auto-generated translations can be broken.
+git reset -- app/localization
+git restore app/localization
+echo "Emitting translations..."
+npm run emit-translations
+git add app/localization
+
 commit=$(git commit -m "$1")
 
 if echo "$commit" | grep -q "no changes"; then

@@ -12,6 +12,7 @@ if [ "$branch" = 'master' ] || [ "$branch" = 'main' ]; then
     exit 1
 fi
 
+echo "Running linter..."
 lint_result=$(npm run lint --color=always)
 
 if echo "$lint_result" | grep -q problem; then
@@ -20,6 +21,13 @@ if echo "$lint_result" | grep -q problem; then
     git reset # Unstage all changes so I don't accidentally double commit.
     exit 1
 fi
+
+# Unstage and re-emit translations because the auto-generated translations can be broken.
+git reset -- app/localization
+git restore app/localization
+echo "Emitting translations..."
+npm run emit-translations
+git add app/localization
 
 commit=$(git commit -m "$1")
 
