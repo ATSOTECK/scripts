@@ -2,6 +2,7 @@
 
 # Use --nt to skip emmiting translations
 
+msg=$1
 emitTranslations=true
 
 if [ -z "$1" ]; then
@@ -35,7 +36,7 @@ if $emitTranslations; then
     git add app/localization
 fi
 
-commit=$(git commit -m "$1")
+commit=$(git commit -m "$msg")
 
 if echo "$commit" | grep -q "no changes"; then
     echo "Stage your changes first!"

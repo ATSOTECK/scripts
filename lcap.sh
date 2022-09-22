@@ -3,6 +3,7 @@
 # Use --nt to skip emmiting translations
 # Use --nl to skip running the linter
 
+msg=$1
 emitTranslations=true
 runLinter=true
 
@@ -53,7 +54,7 @@ if $emitTranslations; then
     git add app/localization
 fi
 
-commit=$(git commit -m "$1")
+commit=$(git commit -m "$msg")
 
 if echo "$commit" | grep -q "no changes"; then
     echo "Stage your changes first!"
